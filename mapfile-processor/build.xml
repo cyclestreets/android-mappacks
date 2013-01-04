@@ -1,0 +1,21 @@
+<project>
+	<property name="download-site" value="http://download.geofabrik.de/openstreetmap/"/>
+	<property name="osm-file" value="europe/british_isles.osm.pbf"/>
+
+	<property name="osmosis-home" value="./osmosis-0.40.1"/>
+
+  <get src="${download-site}/${osm-file}" dest="osm-download"/>
+
+  <java classname="org.codehaus.classworlds.Launcher"
+        classpath="${osmosis-home}/lib/default/plexus-classworlds-2.4.jar"
+        fork="true"
+        maxmemory="8000m">
+		<sysproperty key="app.home" value="${osmosis-home}/"/>
+    <sysproperty key="classworlds.conf" value="${osmosis-home}/config/plexus.conf"/>
+		<arg value="--rb"/>
+		<arg value="file=osm-download"/>
+		<arg value="--mapfile-writer"/>
+		<arg value="file=mapsforge.map"/>
+  </java>
+
+</project>
