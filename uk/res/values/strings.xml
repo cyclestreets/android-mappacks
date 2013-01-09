@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-     <string name="app_name">CycleStreets Map Pack : UK</string>
+     <string name="app_name">CycleStreets Map Pack : UK and Eire</string>
      <string name="yes">Yes</string>
      <string name="no">No</string>
      <string name="download_cyclestreets">The Map Pack has already downloaded, but you do not have the CycleStreets App installed.\n\nWould you like to install it now?</string>
