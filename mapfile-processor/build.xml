@@ -7,10 +7,9 @@
 
 	<property name="package-postfix" value="uk"/>
 	<property name="package-title" value="British Isles"/>
-	<property name="package-version" value="11"/>
 	<property name="package-name" value="net.cyclestreets.maps.${package-postfix}"/>
 
-	<property name="obb-name" value="${package-version}.${package-name}.obb"/>
+	<property name="obb-name" value="${package-name}.obb"/>
 	<property name="main-filename" value="main.${obb-name}"/>
 	<property name="patch-filename" value="patch.${obb-name}"/>
 
@@ -48,6 +47,11 @@ version=${mapsforge-version}
 
 	<target name="chew">
 		<ant target="build">
+			<property name="osm-file" value="europe/british_isles.osm.pbf"/>
+			<property name="package-title" value="United Kingdom and Eire"/>
+			<property name="package-postfix" value="uk"/>
+    </ant>
+		<ant target="build">
 			<property name="osm-file" value="europe/great_britain.osm.pbf"/>
 			<property name="package-title" value="Great Britain"/>
 			<property name="package-postfix" value="gb"/>
@@ -69,7 +73,7 @@ version=${mapsforge-version}
     </ant>
 		<ant target="build">
 			<property name="osm-file" value="europe/ireland-and-northern-ireland.osm.pbf"/>
-			<property name="package-title" value="Ireland"/>
+			<property name="package-title" value="Ireland and Northern Ireland"/>
 			<property name="package-postfix" value="ireland"/>
     </ant>
   </target>
