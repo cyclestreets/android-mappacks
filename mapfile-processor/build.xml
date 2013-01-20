@@ -7,17 +7,19 @@
 
 	<property name="package-postfix" value="uk"/>
 	<property name="package-title" value="British Isles"/>
-	<property name="package-name" value="net.cyclestreets.maps.${package-postfix}"/>
 
-	<property name="obb-name" value="${package-name}.obb"/>
-	<property name="main-filename" value="main.${obb-name}"/>
-	<property name="patch-filename" value="patch.${obb-name}"/>
+	<target name="setup">
+		<property name="package-name" value="net.cyclestreets.maps.${package-postfix}"/>
+		<property name="obb-name" value="${package-name}.obb"/>
+		<property name="main-filename" value="main.${obb-name}"/>
+		<property name="patch-filename" value="patch.${obb-name}"/>
+	</target>
 
-	<target name="download">
+	<target name="download" depends="setup">
     <get src="${download-site}/${osm-file}" dest="osm-download"/>
 	</target>
 
-	<target name="process-to-mapsforge">
+	<target name="process-to-mapsforge" depends="setup">
     <java classname="org.codehaus.classworlds.Launcher"
           classpath="${osmosis-home}/lib/default/plexus-classworlds-2.4.jar"
           fork="true"
@@ -31,7 +33,7 @@
     </java>
   </target>
 
-	<target name="make-patch-file">
+	<target name="make-patch-file" depends="setup">
     <tstamp>
 			<format property="today" pattern="yyyy-MM-dd"/>
 		</tstamp>
