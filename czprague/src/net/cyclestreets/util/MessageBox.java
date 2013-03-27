@@ -3,7 +3,7 @@ package net.cyclestreets.util;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import net.cyclestreets.maps.uk.R;
+import net.cyclestreets.maps.czprague.R;
 
 public class MessageBox 
 {
