@@ -16,7 +16,7 @@
 
 package com.google.android.vending.expansion.downloader;
 
-import net.cyclestreets.maps.uk.R;
+import net.cyclestreets.maps.czprague.R;
 
 import android.content.Context;
 import android.os.Environment;
@@ -132,7 +132,7 @@ public class Helpers {
      * Showing progress in MB here. It would be nice to choose the unit (KB, MB,
      * GB) based on total file size, but given what we know about the expected
      * ranges of file sizes for APK expansion files, it's probably not necessary.
-     * 
+     *
      * @param overallProgress
      * @param overallTotal
      * @return
@@ -154,7 +154,7 @@ public class Helpers {
 
     /**
      * Adds a percentile to getDownloadProgressString.
-     * 
+     *
      * @param overallProgress
      * @param overallTotal
      * @return
@@ -198,7 +198,7 @@ public class Helpers {
     /**
      * Returns the file name (without full path) for an Expansion APK file from
      * the given context.
-     * 
+     *
      * @param c the context
      * @param mainFile true for main file, false for patch file
      * @param versionCode the version of the file
@@ -227,7 +227,7 @@ public class Helpers {
     /**
      * Helper function to ascertain the existence of a file and return
      * true/false appropriately
-     * 
+     *
      * @param c the app/activity/service context
      * @param fileName the name (sans path) of the file to query
      * @param fileSize the size that the file must match
@@ -254,7 +254,7 @@ public class Helpers {
     }
 
     /**
-     * Converts download states that are returned by the {@link 
+     * Converts download states that are returned by the {@link
      * IDownloaderClient#onDownloadStateChanged} callback into usable strings.
      * This is useful if using the state strings built into the library to display user messages.
      * @param state One of the STATE_* constants from {@link IDownloaderClient}.

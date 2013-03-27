@@ -16,7 +16,7 @@
 
 package com.google.android.vending.expansion.downloader.impl;
 
-import net.cyclestreets.maps.uk.R;
+import net.cyclestreets.maps.czprague.R;
 import com.google.android.vending.expansion.downloader.Helpers;
 
 import android.app.Notification;

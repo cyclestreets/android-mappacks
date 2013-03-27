@@ -16,7 +16,7 @@
 
 package com.google.android.vending.expansion.downloader.impl;
 
-import net.cyclestreets.maps.uk.R;
+import net.cyclestreets.maps.czprague.R;
 
 import com.google.android.vending.expansion.downloader.DownloadProgressInfo;
 import com.google.android.vending.expansion.downloader.DownloaderClientMarshaller;
@@ -58,15 +58,15 @@ public class DownloadNotification implements IDownloaderClient {
 
     static final String LOGTAG = "DownloadNotification";
     static final int NOTIFICATION_ID = LOGTAG.hashCode();
-    
-    protected Context context() { 
+
+    protected Context context() {
       return mContext;
     } // context
-    
+
     protected String currentText() {
       return mCurrentText;
     }
-    
+
     public PendingIntent getClientIntent() {
         return mContentIntent;
     }
@@ -203,7 +203,7 @@ public class DownloadNotification implements IDownloaderClient {
     /**
      * Called in response to onClientUpdated. Creates a new proxy and notifies
      * it of the current state.
-     * 
+     *
      * @param msg the client Messenger to notify
      */
     public void setMessenger(Messenger msg) {
@@ -218,7 +218,7 @@ public class DownloadNotification implements IDownloaderClient {
 
     /**
      * Constructor
-     * 
+     *
      * @param ctx The context to use to obtain access to the Notification
      *            Service
      */
