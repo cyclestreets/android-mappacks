@@ -2,7 +2,7 @@
 	<property name="osmosis-home" value="./osmosis-0.40.1"/>
 	<property name="mapsforge-version" value="0.3.0"/>
 
-	<property name="download-site" value="http://download.geofabrik.de/openstreetmap/"/>
+	<property name="download-site" value="http://download.geofabrik.de/"/>
 	<property name="osm-file" value="europe/british_isles.osm.pbf"/>
 
 	<property name="package-postfix" value="uk"/>
