@@ -1,82 +1,84 @@
 <project>
-	<property name="osmosis-home" value="./osmosis-0.40.1"/>
-	<property name="mapsforge-version" value="0.3.0"/>
+  <property name="osmosis-home" value="./osmosis-0.40.1"/>
+  <property name="mapsforge-version" value="0.3.0"/>
 
-	<property name="download-site" value="http://download.geofabrik.de/"/>
-	<property name="osm-file" value="europe/british_isles.osm.pbf"/>
+  <property name="download-site" value="http://download.geofabrik.de/"/>
+  <property name="osm-file" value="europe/british-isles-latest.osm.pbf"/>
 
-	<property name="package-postfix" value="uk"/>
-	<property name="package-title" value="British Isles"/>
+  <property name="package-postfix" value="uk"/>
+  <property name="package-title" value="British Isles"/>
 
-	<target name="setup">
-		<property name="package-name" value="net.cyclestreets.maps.${package-postfix}"/>
-		<property name="obb-name" value="${package-name}.obb"/>
-		<property name="main-filename" value="main.${obb-name}"/>
-		<property name="patch-filename" value="patch.${obb-name}"/>
-	</target>
+  <target name="setup">
+    <property name="package-name" value="net.cyclestreets.maps.${package-postfix}"/>
+    <property name="obb-name" value="${package-name}.obb"/>
+    <property name="main-filename" value="main.${obb-name}"/>
+    <property name="patch-filename" value="patch.${obb-name}"/>
+  </target>
 
-	<target name="download" depends="setup">
-    <get src="${download-site}/${osm-file}" dest="osm-download"/>
-	</target>
+  <target name="download" depends="setup">
+    <get src="${download-site}${osm-file}" dest="osm-download"/>
+  </target>
 
-	<target name="process-to-mapsforge" depends="setup">
+  <target name="process-to-mapsforge" depends="setup">
     <java classname="org.codehaus.classworlds.Launcher"
           classpath="${osmosis-home}/lib/default/plexus-classworlds-2.4.jar"
           fork="true"
           maxmemory="8000m">
-  		<sysproperty key="app.home" value="${osmosis-home}/"/>
+      <sysproperty key="app.home" value="${osmosis-home}/"/>
       <sysproperty key="classworlds.conf" value="${osmosis-home}/config/plexus.conf"/>
-		  <arg value="--rb"/>
-		  <arg value="file=osm-download"/>
-		  <arg value="--mapfile-writer"/>
-		  <arg value="file=${main-filename}"/>
+      <jvmarg value="-server"/>
+      <arg value="--rb"/>
+      <arg value="file=osm-download"/>
+      <arg value="--mapfile-writer"/>
+      <arg value="file=${main-filename}"/>
+      <arg value="type=hd"/>
     </java>
   </target>
 
-	<target name="make-patch-file" depends="setup">
+  <target name="make-patch-file" depends="setup">
     <tstamp>
-			<format property="today" pattern="yyyy-MM-dd"/>
-		</tstamp>
+      <format property="today" pattern="yyyy-MM-dd"/>
+    </tstamp>
 
-		<echo file="${patch-filename}">
+    <echo file="${patch-filename}">
 title=${package-title}
 date=${today}
 version=${mapsforge-version}
-		</echo>
+    </echo>
   </target>
 
-	<target name="build" depends="download, process-to-mapsforge, make-patch-file"/>
+  <target name="build" depends="download, process-to-mapsforge, make-patch-file"/>
 
-	<target name="chew">
-		<ant target="build">
-			<property name="osm-file" value="europe/british_isles.osm.pbf"/>
-			<property name="package-title" value="United Kingdom and Eire"/>
-			<property name="package-postfix" value="uk"/>
+  <target name="chew">
+    <ant target="build">
+      <property name="osm-file" value="europe/british_isles.osm.pbf"/>
+      <property name="package-title" value="United Kingdom and Eire"/>
+      <property name="package-postfix" value="uk"/>
     </ant>
-		<ant target="build">
-			<property name="osm-file" value="europe/great_britain.osm.pbf"/>
-			<property name="package-title" value="Great Britain"/>
-			<property name="package-postfix" value="gb"/>
+    <ant target="build">
+      <property name="osm-file" value="europe/great_britain.osm.pbf"/>
+      <property name="package-title" value="Great Britain"/>
+      <property name="package-postfix" value="gb"/>
     </ant>
-		<ant target="build">
-			<property name="osm-file" value="europe/great_britain/england.osm.pbf"/>
-			<property name="package-title" value="England"/>
-			<property name="package-postfix" value="eng"/>
+    <ant target="build">
+      <property name="osm-file" value="europe/great_britain/england.osm.pbf"/>
+      <property name="package-title" value="England"/>
+      <property name="package-postfix" value="eng"/>
     </ant>
-		<ant target="build">
-			<property name="osm-file" value="europe/great_britain/wales.osm.pbf"/>
-			<property name="package-title" value="Wales"/>
-			<property name="package-postfix" value="wales"/>
+    <ant target="build">
+      <property name="osm-file" value="europe/great_britain/wales.osm.pbf"/>
+      <property name="package-title" value="Wales"/>
+      <property name="package-postfix" value="wales"/>
     </ant>
-		<ant target="build">
-			<property name="osm-file" value="europe/great_britain/scotland.osm.pbf"/>
-			<property name="package-title" value="Scotland"/>
-			<property name="package-postfix" value="ecosse"/>
+    <ant target="build">
+      <property name="osm-file" value="europe/great_britain/scotland.osm.pbf"/>
+      <property name="package-title" value="Scotland"/>
+      <property name="package-postfix" value="ecosse"/>
     </ant>
-		<ant target="build">
-			<property name="osm-file" value="europe/ireland-and-northern-ireland.osm.pbf"/>
-			<property name="package-title" value="Ireland and Northern Ireland"/>
-			<property name="package-postfix" value="ireland"/>
+    <ant target="build">
+      <property name="osm-file" value="europe/ireland-and-northern-ireland.osm.pbf"/>
+      <property name="package-title" value="Ireland and Northern Ireland"/>
+      <property name="package-postfix" value="ireland"/>
     </ant>
   </target>
 </project>
