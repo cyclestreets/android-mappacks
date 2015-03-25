@@ -1,0 +1,9 @@
+dependencies {
+  compile 'com.android.support:appcompat-v7:20.+'
+}
+
+android {
+  defaultConfig {
+    applicationId 'net.cyclestreets.maps.uk'
+  }
+}
