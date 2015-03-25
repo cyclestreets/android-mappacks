@@ -1,1 +1,3 @@
-include 'uk'
+include ':libraries:downloader'
+
+include ':uk'
