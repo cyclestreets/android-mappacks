@@ -1,3 +1,4 @@
 include ':libraries:downloader'
 
-include ':uk'
+include ':apps:uk'
+include ':apps:czprague'

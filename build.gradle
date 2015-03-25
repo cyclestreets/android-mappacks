@@ -7,7 +7,7 @@ buildscript {
   }
 }
 
-configure(subprojects.findAll { it.path.startsWith(':uk') }) {
+configure(subprojects.findAll { it.path.startsWith(':apps:') }) {
   if (!file("${projectDir}/build.gradle").exists())
     return
 
