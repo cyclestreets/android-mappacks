@@ -1,5 +1,5 @@
 evaluationDependsOn(':libraries:downloader')
 
 dependencies {
-  compile project(':libraries:downloader')
+  implementation project(':libraries:downloader')
 }
