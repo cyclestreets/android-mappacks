@@ -5,4 +5,4 @@ include ':libraries:downloader'
 include ':apps:uk'
 include ':apps:czprague'
 
-include ':mapsfile-processor'
+include ':mapfile-processor'

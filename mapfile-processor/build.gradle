@@ -1,0 +1,45 @@
+plugins {
+    id "de.undercouch.download" version "3.4.3"
+}
+
+
+def downloadSite = "http://ftp-stud.hs-esslingen.de/pub/Mirrors/download.mapsforge.org/"
+def mapsforgeFile = "maps/v4/europe/great-britain.map"
+def mapsforgeDownload = "${downloadSite}${mapsforgeFile}"
+def mapsforgeVersion = "0.4.0"
+
+def packagePostfix = "uk"
+def packageTitle = "British Isles"
+
+def packageName = "net.cyclestreets.maps.${packagePostfix}"
+def obbName = "${packageName}.obb"
+def mainFilename = "main.${obbName}"
+def patchFilename = "patch.${obbName}"
+
+task downloadMapFile(type: Download) {
+    group 'Obb'
+    description 'Download Mapsforge File as main Obb file'
+
+    src mapsforgeDownload
+    dest new File("build", mainFilename)
+    onlyIfModified true
+}
+
+task createPatchFile() {
+    group 'Obb'
+    description 'Create patch Obb with date and version info'
+
+    doLast {
+        def today = new Date().format("yyyy-MM-dd")
+        new File("build", patchFilename).text = """
+title=${packageTitle}
+date=${today}
+version=${mapsforgeVersion}
+"""
+    }
+}
+
+task build(dependsOn: [downloadMapFile, createPatchFile]) {
+    group 'Obb'
+    description 'Build Mapsforge data files'
+}
