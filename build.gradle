@@ -1,0 +1,166 @@
+buildscript {
+  repositories {
+    google()
+    jcenter()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.1.3'
+    classpath 'com.github.triplet.gradle:play-publisher:1.2.0'
+    classpath 'org.ajoberstar:grgit:2.2.0'
+  }
+}
+
+configure(subprojects.findAll { it.path.startsWith(':apps:') }) {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  apply plugin: 'com.android.application'
+  apply plugin: 'com.github.triplet.play'
+
+  signingKey(it)
+  manifestProperties(it)
+  versionProperties(it)
+}
+
+configure(subprojects.findAll { it.path.startsWith(':libraries:') }) {
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  apply plugin: 'com.android.library'
+}
+
+subprojects {
+  if (projectDir.toString().contains("mapfile"))
+    return
+
+  if (!file("${projectDir}/build.gradle").exists())
+    return
+
+  gradle.projectsEvaluated {
+    tasks.withType(JavaCompile) {
+      options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+    }
+  }
+  repositories {
+    google()
+    jcenter()
+    maven { url "https://jitpack.io" }
+  }
+
+  android {
+    Properties appConfig = loadProperties("${rootDir}/config.properties")
+
+    compileSdkVersion appConfig['compileSdkVersion'].toInteger()
+    buildToolsVersion appConfig['toolsVersion']
+
+    compileOptions {
+      sourceCompatibility JavaVersion.VERSION_1_8
+      targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+      minSdkVersion appConfig['minSdkVersion'].toInteger()
+      targetSdkVersion appConfig['targetSdkVersion'].toInteger()
+    }
+
+    packagingOptions {
+      exclude 'META-INF/LICENSE'
+      exclude 'META-INF/LICENSE.txt'
+      exclude 'META-INF/DEPENDENCIES'
+      exclude 'META-INF/NOTICE'
+      exclude 'META-INF/NOTICE.txt'
+    }
+
+    // Required due to strictness of the Android developer tools.  See lint.xml for full details.
+    lintOptions {
+      lintConfig rootProject.file('gradle/lint.xml')
+    }
+  }
+}
+
+def loadProperties(fileName) {
+  Properties props = new Properties()
+  props.load(new FileInputStream(file(fileName)))
+  return props
+}
+
+def manifestProperties(project) {
+  def cyclestreetsDetails = project.file("cyclestreets.properties")
+  if (!cyclestreetsDetails.exists()) {
+    println ":${project.name}:No cyclestreets.properties"
+    return
+  }
+
+  project.android {
+    buildTypes {
+      all {
+        manifestPlaceholders = loadProperties(cyclestreetsDetails)
+      }
+    }
+  }
+}
+
+def versionProperties(project) {
+  // Get the version name.  We increment this manually after pushing beta releases to Production.
+  def versionProperties = project.file("version.properties")
+  def vName = loadProperties(versionProperties)['versionName']
+
+  // For the numerical version code, we use the number of commits on the branch.  Since we don't
+  // intend to rewrite history on `master`, this will always be a monotonically increasing number.
+  def git = org.ajoberstar.grgit.Grgit.open()
+  def vCode = git.log().size()
+  println "Version name: ${vName}, code: ${vCode}"
+
+  project.android {
+    defaultConfig {
+      versionCode vCode
+      versionName vName
+    }
+  }
+}
+
+def signingKey(project) {
+  def licenseDetails = project.file("license.properties")
+  if (!licenseDetails.exists()) {
+    println ":${project.name}:No license.properties"
+    return
+  }
+
+  Properties props = loadProperties(licenseDetails)
+
+  project.play {
+    track = 'beta'
+  }
+
+  project.android {
+    signingConfigs {
+      release {
+        storeFile project.file(props['key.store'])
+        storePassword props['key.password']
+        keyAlias props['key.alias']
+        keyPassword props['key.password']
+      }
+    }
+
+    playAccountConfigs {
+      defaultAccountConfig {
+        serviceAccountEmail = 'cyclestreets-android@api-7698300952134656507-752021.iam.gserviceaccount.com'
+        pk12File = project.file('play-api-key.p12')
+      }
+    }
+
+    defaultConfig {
+      playAccountConfig = playAccountConfigs.defaultAccountConfig
+    }
+
+    buildTypes {
+      release {
+        signingConfig signingConfigs.release
+      }
+    }
+  }
+}
+
+repositories {
+  google()
+}
