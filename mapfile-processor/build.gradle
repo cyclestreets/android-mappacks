@@ -39,7 +39,7 @@ version=${mapsforgeVersion}
     }
 }
 
-task build(dependsOn: [downloadMapFile, createPatchFile]) {
+task buildObb(dependsOn: [downloadMapFile, createPatchFile]) {
     group 'Obb'
     description 'Build Mapsforge data files'
 }
