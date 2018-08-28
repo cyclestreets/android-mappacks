@@ -102,8 +102,15 @@ def versionProperties(project) {
   }
 }
 
-def signingKey(project) {
+def findLicenseProperties(project) {
   def licenseDetails = project.file("license.properties")
+  if (!licenseDetails.exists() && (project.depth != 0))
+    return findLicenseProperties(project.parent)
+  return [licenseDetails, project]
+} // findLicenseProperties
+
+def signingKey(project) {
+  def (licenseDetails, projWithLicense) = findLicenseProperties(project)
   if (!licenseDetails.exists()) {
     println ":${project.name}:No license.properties"
     return
@@ -118,7 +125,7 @@ def signingKey(project) {
   project.android {
     signingConfigs {
       release {
-        storeFile project.file(props['key.store'])
+        storeFile projWithLicense.file(props['key.store'])
         storePassword props['key.password']
         keyAlias props['key.alias']
         keyPassword props['key.password']
