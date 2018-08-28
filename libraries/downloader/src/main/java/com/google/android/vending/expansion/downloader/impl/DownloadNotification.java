@@ -144,8 +144,6 @@ public class DownloadNotification implements IDownloaderClient {
             mCurrentTitle = mLabel.toString();
             mCurrentNotification.tickerText = mLabel + ": " + mCurrentText;
             mCurrentNotification.icon = iconResource;
-            mCurrentNotification.setLatestEventInfo(mContext, mCurrentTitle, mCurrentText,
-                    mContentIntent);
             if (ongoingEvent) {
                 mCurrentNotification.flags |= Notification.FLAG_ONGOING_EVENT;
             } else {
@@ -167,7 +165,6 @@ public class DownloadNotification implements IDownloaderClient {
             // we just show the text
             mNotification.tickerText = mCurrentTitle;
             mNotification.icon = android.R.drawable.stat_sys_download;
-            mNotification.setLatestEventInfo(mContext, mLabel, mCurrentText, mContentIntent);
             mCurrentNotification = mNotification;
         } else {
             mCustomNotification.setCurrentBytes(progress.mOverallProgress);
