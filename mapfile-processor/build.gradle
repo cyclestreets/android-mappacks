@@ -2,14 +2,13 @@ plugins {
     id "de.undercouch.download" version "3.4.3"
 }
 
-
-def downloadSite = "http://ftp-stud.hs-esslingen.de/pub/Mirrors/download.mapsforge.org/"
-def mapsforgeFile = "maps/v4/europe/great-britain.map"
-def mapsforgeDownload = "${downloadSite}${mapsforgeFile}"
-def mapsforgeVersion = "0.4.0"
-
 def packagePostfix = "uk"
 def packageTitle = "British Isles"
+def mapsforgeFile = "maps/v4/europe/great-britain.map"
+
+def downloadSite = "http://ftp-stud.hs-esslingen.de/pub/Mirrors/download.mapsforge.org/"
+def mapsforgeDownload = "${downloadSite}${mapsforgeFile}"
+def mapsforgeVersion = "0.4.0"
 
 def packageName = "net.cyclestreets.maps.${packagePostfix}"
 def obbName = "${packageName}.obb"
